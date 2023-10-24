@@ -1,0 +1,13 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.SocialQuote" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimaryDark">@color/primaryTheme</item>
+        
+        <item name="android:navigationBarColor">#5C0E68</item>
+        
+    </style>
+
+    <style name="Theme.SocialQuote" parent="Base.Theme.SocialQuote" />
+</resources>
