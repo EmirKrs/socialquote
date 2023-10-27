@@ -6,9 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
+
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
@@ -18,11 +16,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.emirhankaraarslan.socialquote.R;
-
+import com.emirhankaraarslan.socialquote.databinding.FragmentLoginBinding;
 
 public class LoginFragment extends Fragment {
-
-
 
     public LoginFragment() {
         // Required empty public constructor
@@ -53,7 +49,8 @@ public class LoginFragment extends Fragment {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intentToHome = new Intent(getActivity(), HomeActivity.class);
+                startActivity(intentToHome);
             }
         });
 

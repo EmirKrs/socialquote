@@ -3,4 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="primaryTheme">#7B2ADC</color>
+    <color name="themeColor">#F4E3F6</color>
+    <color name="darkPurple">#5C0E68</color>
+    <color name="darkPink">#E4C3EA</color>
 </resources>

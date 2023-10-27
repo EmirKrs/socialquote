@@ -14,10 +14,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.emirhankaraarslan.socialquote.R;
+import com.emirhankaraarslan.socialquote.databinding.FragmentRegisterBinding;
 
 
 public class RegisterFragment extends Fragment {
-
 
 
     public RegisterFragment() {
@@ -41,14 +41,15 @@ public class RegisterFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button btnCreate = view.findViewById(R.id.RegisterCreateBtn);
+        Button registerBtn = view.findViewById(R.id.registerCreateBtn);
 
-        btnCreate.setOnClickListener(new View.OnClickListener() {
+        registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 NavDirections action = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment();
                 Navigation.findNavController(view).navigate(action);
             }
         });
+
     }
 }

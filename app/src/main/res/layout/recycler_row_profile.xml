@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/profileAuthorText"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/themeColor"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/recycler_row_profile"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/profileQuoteText"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="25dp"
+            android:fontFamily="@font/baloo_bhai"
+            android:text="'' Lorem ipsum Lorem ipsum Lorem
+Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
+Lorem ipsum Lorem ipsum Lorem ipsum Lorem Lorem ipsum. ''"
+            android:textColor="@color/darkPurple"
+            android:textSize="18sp"
+            android:textStyle="bold">
+
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="30dp"
+            android:fontFamily="@font/baloo_bhai"
+            android:text="Lorem ipsum Lorem "
+            android:textColor="@color/darkPurple"
+            android:textSize="20sp"
+            android:textStyle="bold">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/profileBookText"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:fontFamily="@font/baloo_bhai"
+            android:text="Lorem ipsum Lorem"
+            android:textColor="@color/darkPurple"
+            android:textSize="20sp"
+            android:textStyle="bold">
+
+        </TextView>
+
+
+    </LinearLayout>
+
+</LinearLayout>
