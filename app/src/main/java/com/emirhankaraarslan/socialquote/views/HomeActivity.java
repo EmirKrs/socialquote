@@ -3,6 +3,8 @@ package com.emirhankaraarslan.socialquote.views;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.os.Bundle;
 
@@ -13,7 +15,7 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
 public class HomeActivity extends AppCompatActivity {
-    MeowBottomNavigation bottomNavigation;
+    public MeowBottomNavigation bottomNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +25,6 @@ public class HomeActivity extends AppCompatActivity {
         bottomNavigation = findViewById(R.id.bottomNavigation);
 
         replace(new HomeFragment());
-
         bottomNavigation.show(1, true);
 
         bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.ic_home_35));
@@ -34,7 +35,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-    private void meowNavigation(){
+    public void meowNavigation(){
         bottomNavigation.setOnClickMenuListener(new Function1<MeowBottomNavigation.Model, Unit>() {
             @Override
             public Unit invoke(MeowBottomNavigation.Model model) {
@@ -61,7 +62,7 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private void replace(Fragment fragment){
+    public void replace(Fragment fragment){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frameLayout, fragment);
         transaction.commit();

@@ -5,9 +5,17 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="colorPrimaryDark">@color/primaryTheme</item>
         
-        <item name="android:navigationBarColor">#5C0E68</item>
+        <item name="android:navigationBarColor">#00C6A4F2</item>
         
     </style>
 
     <style name="Theme.SocialQuote" parent="Base.Theme.SocialQuote" />
+
+
+    <style name="CustomTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="colorPrimaryDark">@color/darkPurple</item>
+
+        <item name="android:navigationBarColor">@color/darkPurple</item>
+    </style>
 </resources>

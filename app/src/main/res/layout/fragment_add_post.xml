@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/AuthorText"
+        android:id="@+id/authorText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -36,7 +36,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/BookText"
+        android:id="@+id/bookText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -67,7 +67,7 @@ Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum"
         android:textColor="@color/darkPurple"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/AuthorText"
+        app:layout_constraintBottom_toTopOf="@+id/authorText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/quoteText" />
@@ -90,7 +90,7 @@ Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum"
         android:textColor="@color/darkPurple"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/BookText"
+        app:layout_constraintBottom_toTopOf="@+id/bookText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

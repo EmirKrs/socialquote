@@ -20,6 +20,7 @@ import com.emirhankaraarslan.socialquote.databinding.FragmentLoginBinding;
 
 public class LoginFragment extends Fragment {
 
+    private FragmentLoginBinding binding;
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -34,33 +35,32 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
-
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        binding = FragmentLoginBinding.inflate(inflater,container,false);
+        View view = binding.getRoot();
+        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        Button btnLogin = view.findViewById(R.id.loginButton);
-        Button btnCreate = view.findViewById(R.id.createButton);
-
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+        binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Intent intentToHome = new Intent(getActivity(), HomeActivity.class);
+                intentToHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intentToHome);
             }
         });
 
-        btnCreate.setOnClickListener(new View.OnClickListener() {
+        binding.createButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 NavDirections action = LoginFragmentDirections.actionLoginFragmentToRegisterFragment();
                 Navigation.findNavController(view).navigate(action);
             }
         });
+
     }
 
 }

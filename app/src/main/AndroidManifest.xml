@@ -13,13 +13,17 @@
         android:theme="@style/Theme.SocialQuote"
         tools:targetApi="31">
         <activity
-            android:name=".views.MainActivity"
+            android:name=".views.MainActivity" android:theme="@style/Base.Theme.SocialQuote"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".views.HomeActivity" android:theme="@style/CustomTheme"
+            android:exported="true">
         </activity>
     </application>
 
