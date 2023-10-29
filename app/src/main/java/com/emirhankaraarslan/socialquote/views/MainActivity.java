@@ -13,5 +13,6 @@ public class MainActivity extends AppCompatActivity {
         setTheme(R.style.Base_Theme_SocialQuote);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
     }
 }

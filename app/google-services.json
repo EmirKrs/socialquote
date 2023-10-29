@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "678959030521",
+    "project_id": "socialquote-5911c",
+    "storage_bucket": "socialquote-5911c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:678959030521:android:51c6b7124c407d9e26c228",
+        "android_client_info": {
+          "package_name": "com.emirhankaraarslan.socialquote"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfRBw3_UApt1fs3ViUxeRizRHivQHbFHU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

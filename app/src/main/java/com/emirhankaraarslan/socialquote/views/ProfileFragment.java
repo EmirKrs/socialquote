@@ -16,11 +16,13 @@ import android.view.ViewGroup;
 import com.emirhankaraarslan.socialquote.R;
 import com.emirhankaraarslan.socialquote.databinding.FragmentProfileBinding;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class ProfileFragment extends Fragment {
 
     private FragmentProfileBinding binding;
+    private FirebaseAuth auth;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -46,7 +48,8 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        MeowBottomNavigation bottomNavigation = getActivity().findViewById(R.id.bottomNavigation);
+        auth = FirebaseAuth.getInstance();
+
         binding.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,9 +64,12 @@ public class ProfileFragment extends Fragment {
         binding.logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                auth.signOut();
+
                 Intent intentToMain = new Intent(getActivity(), MainActivity.class);
-                intentToMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intentToMain);
+                getActivity().finish();
             }
         });
 

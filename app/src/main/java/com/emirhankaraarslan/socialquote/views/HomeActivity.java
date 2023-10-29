@@ -35,6 +35,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
+
     public void meowNavigation(){
         bottomNavigation.setOnClickMenuListener(new Function1<MeowBottomNavigation.Model, Unit>() {
             @Override

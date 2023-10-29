@@ -14,12 +14,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.emirhankaraarslan.socialquote.R;
 import com.emirhankaraarslan.socialquote.databinding.FragmentLoginBinding;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginFragment extends Fragment {
 
+    private FirebaseAuth auth;
+    private FirebaseUser user;
     private FragmentLoginBinding binding;
     public LoginFragment() {
         // Required empty public constructor
@@ -44,14 +52,24 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        binding.loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intentToHome = new Intent(getActivity(), HomeActivity.class);
-                intentToHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intentToHome);
-            }
-        });
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+
+        if (user != null){
+
+            Intent intentToHome = new Intent(getActivity(), HomeActivity.class);
+            startActivity(intentToHome);
+            getActivity().finish();
+        }
+            binding.loginButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    login(view);
+
+                }
+            });
+
 
         binding.createButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +78,32 @@ public class LoginFragment extends Fragment {
                 Navigation.findNavController(view).navigate(action);
             }
         });
+    }
 
+    private void login(View view){
+
+        String email = binding.emailPlain.getText().toString();
+        String password = binding.passwordPlain.getText().toString();
+
+        if (email.equals("")||password.equals("")){
+
+            Toast.makeText(getActivity(), "Lütfen boş alan bırakmayınız", Toast.LENGTH_SHORT).show();
+        }
+        else {
+                auth.signInWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        Intent intentToHome = new Intent(getActivity(), HomeActivity.class);
+                        startActivity(intentToHome);
+                        getActivity().finish();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+        }
     }
 
 }
