@@ -47,7 +47,7 @@ public class EditProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         MeowBottomNavigation bottomNavigation = getActivity().findViewById(R.id.bottomNavigation);
-        bottomNavigation.setVisibility(View.INVISIBLE);
+        bottomNavigation.setVisibility(View.GONE);
 
         binding.saveButton.setOnClickListener(new View.OnClickListener() {
             @Override

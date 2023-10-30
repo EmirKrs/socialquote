@@ -18,9 +18,9 @@
             android:id="@+id/photoProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/photo_profile"
+            android:src="@drawable/photo_profile_120"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,7 +28,7 @@
             android:id="@+id/nameTextProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:fontFamily="@font/baloo_bhai"
             android:text="Emirhan Karaarslan"
@@ -63,13 +63,12 @@ Lorem ipsum Lorem ipsum Lorem ipsum"
 
         <Button
             android:id="@+id/editButton"
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_button_background"
+            android:background="@drawable/edit_btn"
             android:fontFamily="@font/baloo_bhai"
             android:text="Edit Profile"
             android:textAllCaps="false"
@@ -77,18 +76,17 @@ Lorem ipsum Lorem ipsum Lorem ipsum"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/logoutButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bioText" />
 
         <Button
             android:id="@+id/logoutButton"
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/logout_btn"
+            android:background="@drawable/share_btn"
             android:fontFamily="@font/baloo_bhai"
             android:text="Logout"
             android:textAllCaps="false"
@@ -103,17 +101,12 @@ Lorem ipsum Lorem ipsum Lorem ipsum"
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/profileRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent" />
     </LinearLayout>
 </LinearLayout>
+

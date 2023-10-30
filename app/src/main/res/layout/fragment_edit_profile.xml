@@ -11,9 +11,10 @@
     <ImageView
         android:id="@+id/photoEdit"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:src="@drawable/edit_profile_photo"
+        android:onClick="selectPhoto"
+        android:src="@drawable/photo_edit_180"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -94,10 +95,10 @@ Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ip
 
     <Button
         android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/share_button_background"
+        android:background="@drawable/share_btn"
         android:fontFamily="@font/baloo_bhai"
         android:text="Save"
         android:textAllCaps="false"

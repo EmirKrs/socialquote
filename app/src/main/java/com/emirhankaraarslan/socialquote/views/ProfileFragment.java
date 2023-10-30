@@ -1,6 +1,8 @@
 package com.emirhankaraarslan.socialquote.views;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,7 +17,6 @@ import android.view.ViewGroup;
 
 import com.emirhankaraarslan.socialquote.R;
 import com.emirhankaraarslan.socialquote.databinding.FragmentProfileBinding;
-import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.firebase.auth.FirebaseAuth;
 
 
@@ -23,6 +24,8 @@ public class ProfileFragment extends Fragment {
 
     private FragmentProfileBinding binding;
     private FirebaseAuth auth;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -48,6 +51,8 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        sharedPreferences = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
+
         auth = FirebaseAuth.getInstance();
 
         binding.editButton.setOnClickListener(new View.OnClickListener() {
@@ -57,7 +62,6 @@ public class ProfileFragment extends Fragment {
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.frameLayout, new EditProfileFragment());
                 fragmentTransaction.commit();
-
             }
         });
 
@@ -65,6 +69,8 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
+                editor = sharedPreferences.edit();
+                editor.putBoolean("isLogin", false).commit();
                 auth.signOut();
 
                 Intent intentToMain = new Intent(getActivity(), MainActivity.class);

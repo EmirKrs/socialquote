@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.emirhankaraarslan.socialquote.R;
 import com.emirhankaraarslan.socialquote.databinding.FragmentHomeBinding;
 
 

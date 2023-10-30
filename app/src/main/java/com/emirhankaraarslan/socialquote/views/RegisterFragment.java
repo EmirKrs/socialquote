@@ -11,10 +11,9 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import com.emirhankaraarslan.socialquote.R;
 import com.emirhankaraarslan.socialquote.databinding.FragmentRegisterBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -53,7 +52,43 @@ public class RegisterFragment extends Fragment {
 
         auth = FirebaseAuth.getInstance();
 
-            binding.registerCreateBtn.setOnClickListener(new View.OnClickListener() {
+        binding.registerUserPlain.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(view);
+                }
+            }
+        });
+
+        binding.registerEmailPlain.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(view);
+                }
+            }
+        });
+
+        binding.registerPasswordPlain.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(view);
+                }
+            }
+        });
+
+        binding.registerConfirmPlain.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(view);
+                }
+            }
+        });
+
+        binding.registerCreateBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
@@ -95,5 +130,10 @@ public class RegisterFragment extends Fragment {
                 }
             });
         }
+    }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager) getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
