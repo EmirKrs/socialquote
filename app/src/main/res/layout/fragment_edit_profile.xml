@@ -8,13 +8,15 @@
     tools:context=".views.EditProfileFragment">
 
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/photoEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:scaleType="fitXY"
         android:layout_marginTop="20dp"
         android:onClick="selectPhoto"
         android:src="@drawable/photo_edit_180"
+        app:shapeAppearance="@style/circle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -60,7 +62,6 @@
         android:maxLength="40"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
-        android:text="Emirhan Karaarslan"
         android:textColor="@color/darkPurple"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -82,9 +83,6 @@
         android:inputType="textMultiLine"
         android:maxLength="200"
         android:padding="20dp"
-        android:text="Lorem ipsum Lorem ipsum Lorem ipsum
-Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
-Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum"
         android:textColor="@color/darkPurple"
         android:textSize="18sp"
         android:textStyle="bold"

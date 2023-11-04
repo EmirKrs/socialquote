@@ -6,4 +6,5 @@
     <color name="themeColor">#F4E3F6</color>
     <color name="darkPurple">#5C0E68</color>
     <color name="darkPink">#E4C3EA</color>
+    <color name="recyclerTheme">#EAD1EF</color>
 </resources>

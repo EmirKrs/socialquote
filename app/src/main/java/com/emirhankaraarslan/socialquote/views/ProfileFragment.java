@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 
 import com.emirhankaraarslan.socialquote.R;
 import com.emirhankaraarslan.socialquote.databinding.FragmentProfileBinding;
+import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.firebase.auth.FirebaseAuth;
 
 
@@ -55,13 +56,20 @@ public class ProfileFragment extends Fragment {
 
         auth = FirebaseAuth.getInstance();
 
+        MeowBottomNavigation bottomNavigation = requireActivity().findViewById(R.id.bottomNavigation);
+        bottomNavigation.setVisibility(View.VISIBLE);
+        bottomNavigation.show(3,true);
+
+
         binding.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.frameLayout, new EditProfileFragment());
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+
             }
         });
 
