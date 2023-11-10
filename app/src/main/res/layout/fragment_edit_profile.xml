@@ -28,7 +28,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/baloo_bhai"
-        android:text="Name"
+        android:text="Username"
         android:textColor="@color/darkPurple"
         android:textSize="24sp"
         android:textStyle="bold"

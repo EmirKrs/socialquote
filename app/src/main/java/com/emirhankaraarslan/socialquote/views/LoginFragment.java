@@ -30,6 +30,7 @@ public class LoginFragment extends Fragment {
     private FragmentLoginBinding binding;
     private SharedPreferences.Editor editor;
     private SharedPreferences sharedPreferences;
+
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -57,6 +58,7 @@ public class LoginFragment extends Fragment {
 
         sharedPreferences = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
         boolean isLogin = sharedPreferences.getBoolean("isLogin", false);
+
 
         if (isLogin){
             Intent intentToHome = new Intent(getActivity(), HomeActivity.class);
@@ -96,6 +98,9 @@ public class LoginFragment extends Fragment {
             public void onClick(View view) {
                 NavDirections action = LoginFragmentDirections.actionLoginFragmentToRegisterFragment();
                 Navigation.findNavController(view).navigate(action);
+
+                binding.emailPlain.setText("");
+                binding.passwordPlain.setText("");
             }
         });
     }

@@ -3,6 +3,7 @@ package com.emirhankaraarslan.socialquote.views;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,17 +15,27 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.emirhankaraarslan.socialquote.R;
 import com.emirhankaraarslan.socialquote.databinding.FragmentProfileBinding;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
+
+import java.util.Map;
 
 
 public class ProfileFragment extends Fragment {
 
     private FragmentProfileBinding binding;
     private FirebaseAuth auth;
+    private FirebaseFirestore firebaseFirestore;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
@@ -53,8 +64,8 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         sharedPreferences = getContext().getSharedPreferences(getContext().getPackageName(), Context.MODE_PRIVATE);
-
         auth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
         MeowBottomNavigation bottomNavigation = requireActivity().findViewById(R.id.bottomNavigation);
         bottomNavigation.setVisibility(View.VISIBLE);
@@ -81,12 +92,43 @@ public class ProfileFragment extends Fragment {
                 editor.putBoolean("isLogin", false).commit();
                 auth.signOut();
 
-                Intent intentToMain = new Intent(getActivity(), MainActivity.class);
+                Intent intentToMain = new Intent(requireActivity(), MainActivity.class);
                 startActivity(intentToMain);
                 getActivity().finish();
             }
         });
 
+        getData();
+    }
 
+    public void getData(){
+
+        String currentId = auth.getCurrentUser().getUid();
+        firebaseFirestore.collection("Profiles").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(error != null){
+                    Toast.makeText(requireActivity(), error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                }
+                if (value != null){
+
+                    for (DocumentSnapshot document : value.getDocuments()){
+
+                        Map<String, Object> data = document.getData();
+                        String userId = (String) data.get("userid");
+
+                        if (currentId.equals(userId)){
+                            String username = (String) data.get("username");
+                            String biography = (String) data.get("biography");
+                            String downloadUrl = (String) data.get("downloadurl");
+
+                            binding.nameTextProfile.setText(username);
+                            binding.bioText.setText(biography);
+                            Picasso.get().load(downloadUrl).into(binding.photoProfile);
+                        }
+                    }
+                }
+            }
+        });
     }
 }

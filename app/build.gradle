@@ -61,4 +61,7 @@ dependencies {
 
     //Shape imageview
     implementation 'com.google.android.material:material:1.10.0'
+
+    //Picasso
+    implementation 'com.squareup.picasso:picasso:2.8'
 }

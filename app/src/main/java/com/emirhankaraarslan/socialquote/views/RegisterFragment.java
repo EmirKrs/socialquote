@@ -1,5 +1,7 @@
 package com.emirhankaraarslan.socialquote.views;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,6 +27,7 @@ public class RegisterFragment extends Fragment {
 
     private FragmentRegisterBinding binding;
     private FirebaseAuth auth;
+
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -99,12 +102,12 @@ public class RegisterFragment extends Fragment {
     }
     public void register(View view){
 
-        String userName = binding.registerUserPlain.getText().toString();
+        String username = binding.registerUserPlain.getText().toString();
         String email = binding.registerEmailPlain.getText().toString();
         String password = binding.registerPasswordPlain.getText().toString();
         String passwordCon = binding.registerConfirmPlain.getText().toString();
 
-        if (userName.equals("") || email.equals("") || password.equals("") || passwordCon.equals("")) {
+        if (username.equals("") || email.equals("") || password.equals("") || passwordCon.equals("")) {
 
             Toast.makeText(getActivity(), "Lütfen boş alan bırakmayınız", Toast.LENGTH_SHORT).show();
 
@@ -122,6 +125,11 @@ public class RegisterFragment extends Fragment {
 
                     NavDirections action = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment();
                     Navigation.findNavController(view).navigate(action);
+
+                    binding.registerUserPlain.setText("");
+                    binding.registerEmailPlain.setText("");
+                    binding.registerPasswordPlain.setText("");
+                    binding.registerConfirmPlain.setText("");
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

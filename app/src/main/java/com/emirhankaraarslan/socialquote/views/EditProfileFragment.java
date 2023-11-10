@@ -4,12 +4,10 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -31,27 +29,17 @@ import android.widget.Toast;
 import com.emirhankaraarslan.socialquote.R;
 import com.emirhankaraarslan.socialquote.databinding.FragmentEditProfileBinding;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 
 
@@ -62,7 +50,7 @@ public class EditProfileFragment extends Fragment {
     private ActivityResultLauncher<String> permissionLauncher;
     private Uri imageData;
     private FirebaseStorage firebaseStorage;
-    //private FirebaseAuth auth;
+    private FirebaseAuth auth;
     private FirebaseFirestore firebaseFirestore;
     private StorageReference storageReference;
 
@@ -92,7 +80,6 @@ public class EditProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         MeowBottomNavigation bottomNavigation = requireActivity().findViewById(R.id.bottomNavigation);
         bottomNavigation.setVisibility(View.GONE);
 
@@ -100,8 +87,9 @@ public class EditProfileFragment extends Fragment {
 
         firebaseStorage = FirebaseStorage.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
-        //auth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
         storageReference = firebaseStorage.getReference();
+
 
         binding.saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +98,14 @@ public class EditProfileFragment extends Fragment {
                 UUID uuid = UUID.randomUUID();
                 String imageName = "images/" + uuid + ".jpg";
 
-                if (imageData != null){
+                String name = binding.nameEditText.getText().toString();
+                String biography = binding.bioEditText.getText().toString();
+
+                if (imageData == null || name.equals("")|| biography.equals("")){
+                    Toast.makeText(requireActivity(), "Lütfen alanları doldurunuz", Toast.LENGTH_SHORT).show();
+                }
+
+                else if (imageData != null && !name.equals("") && !biography.equals("")){
                     storageReference.child(imageName).putFile(imageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -118,17 +113,16 @@ public class EditProfileFragment extends Fragment {
                             storageReference.child(imageName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
+
                                     String downloadUrl = uri.toString();
-                                    String name = binding.nameEditText.getText().toString();
-                                    String biography = binding.bioEditText.getText().toString();
-                                    //FirebaseUser user = auth.getCurrentUser();
+                                    String userId = auth.getCurrentUser().getUid();
 
                                     HashMap<String, Object> profileData = new HashMap<>();
 
                                     profileData.put("username",name);
                                     profileData.put("biography",biography);
                                     profileData.put("downloadurl",downloadUrl);
-                                    profileData.put("date", FieldValue.serverTimestamp());
+                                    profileData.put("userid", userId);
 
                                     firebaseFirestore.collection("Profiles").add(profileData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                         @Override
@@ -137,7 +131,6 @@ public class EditProfileFragment extends Fragment {
                                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                                             fragmentTransaction.replace(R.id.frameLayout, new ProfileFragment());
                                             fragmentTransaction.commit();
-
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
@@ -155,7 +148,6 @@ public class EditProfileFragment extends Fragment {
                         }
                     });
                 }
-
             }
         });
 
