@@ -18,13 +18,13 @@
             android:id="@+id/photoProfile"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:scaleType="fitXY"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            app:shapeAppearance="@style/circle"
+            android:scaleType="fitXY"
             android:src="@drawable/photo_profile_120"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearance="@style/circle" />
 
         <TextView
             android:id="@+id/nameTextProfile"

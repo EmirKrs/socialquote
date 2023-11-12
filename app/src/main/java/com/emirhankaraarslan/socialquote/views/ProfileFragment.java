@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.emirhankaraarslan.socialquote.R;
 import com.emirhankaraarslan.socialquote.databinding.FragmentProfileBinding;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -80,7 +82,6 @@ public class ProfileFragment extends Fragment {
                 fragmentTransaction.replace(R.id.frameLayout, new EditProfileFragment());
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-
             }
         });
 
@@ -103,32 +104,26 @@ public class ProfileFragment extends Fragment {
 
     public void getData(){
 
-        String currentId = auth.getCurrentUser().getUid();
-        firebaseFirestore.collection("Profiles").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        String userId = auth.getCurrentUser().getUid();
+        firebaseFirestore.collection("Profiles").document(userId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if(error != null){
-                    Toast.makeText(requireActivity(), error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()){
+                    String username = documentSnapshot.getString("username");
+                    String biography = documentSnapshot.getString("biography");
+                    String downloadUrl = documentSnapshot.getString("downloadurl");
+
+                    binding.nameTextProfile.setText(username);
+                    binding.bioText.setText(biography);
+                    Picasso.get().load(downloadUrl).into(binding.photoProfile);
                 }
-                if (value != null){
-
-                    for (DocumentSnapshot document : value.getDocuments()){
-
-                        Map<String, Object> data = document.getData();
-                        String userId = (String) data.get("userid");
-
-                        if (currentId.equals(userId)){
-                            String username = (String) data.get("username");
-                            String biography = (String) data.get("biography");
-                            String downloadUrl = (String) data.get("downloadurl");
-
-                            binding.nameTextProfile.setText(username);
-                            binding.bioText.setText(biography);
-                            Picasso.get().load(downloadUrl).into(binding.photoProfile);
-                        }
-                    }
-                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(requireActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
+    
 }

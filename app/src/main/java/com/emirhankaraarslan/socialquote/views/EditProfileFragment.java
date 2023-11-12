@@ -122,15 +122,15 @@ public class EditProfileFragment extends Fragment {
                                     profileData.put("username",name);
                                     profileData.put("biography",biography);
                                     profileData.put("downloadurl",downloadUrl);
-                                    profileData.put("userid", userId);
 
-                                    firebaseFirestore.collection("Profiles").add(profileData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    firebaseFirestore.collection("Profiles").document(userId).update(profileData).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
-                                        public void onSuccess(DocumentReference documentReference) {
+                                        public void onSuccess(Void unused) {
                                             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                                             fragmentTransaction.replace(R.id.frameLayout, new ProfileFragment());
                                             fragmentTransaction.commit();
+
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
@@ -138,6 +138,7 @@ public class EditProfileFragment extends Fragment {
                                             Toast.makeText(requireActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                                         }
                                     });
+
                                 }
                             });
                         }
@@ -157,7 +158,6 @@ public class EditProfileFragment extends Fragment {
                 selectPhoto(v);
             }
         });
-
     }
 
     private void selectPhoto(View view){

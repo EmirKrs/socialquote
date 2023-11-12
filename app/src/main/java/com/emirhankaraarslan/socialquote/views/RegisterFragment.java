@@ -2,6 +2,7 @@ package com.emirhankaraarslan.socialquote.views;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,17 +17,31 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.emirhankaraarslan.socialquote.R;
 import com.emirhankaraarslan.socialquote.databinding.FragmentRegisterBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.UUID;
 
 
 public class RegisterFragment extends Fragment {
 
     private FragmentRegisterBinding binding;
     private FirebaseAuth auth;
+    private FirebaseFirestore firebaseFirestore;
+    private FirebaseStorage firebaseStorage;
+    private StorageReference storageReference;
+    private Uri imageData;
 
 
     public RegisterFragment() {
@@ -53,7 +68,12 @@ public class RegisterFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        firebaseStorage = FirebaseStorage.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
+        storageReference = firebaseStorage.getReference();
+        imageData = Uri.parse("android.resource://com.emirhankaraarslan.socialquote/" + R.drawable.splash_logo);
+
 
         binding.registerUserPlain.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -107,6 +127,9 @@ public class RegisterFragment extends Fragment {
         String password = binding.registerPasswordPlain.getText().toString();
         String passwordCon = binding.registerConfirmPlain.getText().toString();
 
+        UUID uuid = UUID.randomUUID();
+        String imageName = "images/" + uuid + ".jpg";
+
         if (username.equals("") || email.equals("") || password.equals("") || passwordCon.equals("")) {
 
             Toast.makeText(getActivity(), "Lütfen boş alan bırakmayınız", Toast.LENGTH_SHORT).show();
@@ -135,6 +158,45 @@ public class RegisterFragment extends Fragment {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+
+            storageReference.child(imageName).putFile(imageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                    storageReference.child(imageName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String downloadUrl = uri.toString();
+                            String userId = auth.getCurrentUser().getUid();
+                            String biography = "";
+
+                            HashMap<String, Object> profileData = new HashMap<>();
+
+                            profileData.put("username", username);
+                            profileData.put("downloadurl",downloadUrl);
+                            profileData.put("biography", biography);
+
+                            firebaseFirestore.collection("Profiles").document(userId).set(profileData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(requireActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    });
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(requireActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 }
             });
         }
