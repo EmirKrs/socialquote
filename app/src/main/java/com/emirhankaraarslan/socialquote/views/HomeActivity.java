@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.emirhankaraarslan.socialquote.R;
@@ -31,8 +33,6 @@ public class HomeActivity extends AppCompatActivity {
 
         meowNavigation();
     }
-
-
 
     public void meowNavigation(){
         bottomNavigation.setOnClickMenuListener(new Function1<MeowBottomNavigation.Model, Unit>() {
@@ -67,4 +67,5 @@ public class HomeActivity extends AppCompatActivity {
         transaction.commit();
 
     }
+
 }

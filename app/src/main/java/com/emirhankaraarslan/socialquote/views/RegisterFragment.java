@@ -72,7 +72,7 @@ public class RegisterFragment extends Fragment {
         firebaseFirestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         storageReference = firebaseStorage.getReference();
-        imageData = Uri.parse("android.resource://com.emirhankaraarslan.socialquote/" + R.drawable.splash_logo);
+        imageData = Uri.parse("android.resource://com.emirhankaraarslan.socialquote/" + R.drawable.login_logo);
 
 
         binding.registerUserPlain.setOnFocusChangeListener(new View.OnFocusChangeListener() {
