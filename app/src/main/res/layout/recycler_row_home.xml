@@ -18,7 +18,7 @@
         android:layout_marginTop="10dp">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/recyclerPhoto"
+            android:id="@+id/homeRecyclerRowPhoto"
             android:layout_width="40dp"
             android:layout_height="40dp"
             app:shapeAppearance="@style/circle"
@@ -35,7 +35,7 @@
             android:fontFamily="@font/baloo_bhai"
             android:textStyle="bold"
             android:textColor="@color/darkPurple"
-            android:textSize="20sp">
+            android:textSize="24sp">
         </TextView>
 
     </LinearLayout>

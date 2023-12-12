@@ -71,7 +71,7 @@ public class AddPostFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                String quote = binding.quoteEditText.getText().toString();
+                String quote = "''" + binding.quoteEditText.getText().toString() + "''";
                 String author = binding.authorEditText.getText().toString();
                 String book = binding.bookEditText.getText().toString();
 
@@ -82,9 +82,49 @@ public class AddPostFragment extends Fragment {
                 postData.put("book", book);
                 postData.put("date", FieldValue.serverTimestamp());
 
+                firebaseFirestore.collection("Profiles").document(userId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        String username = documentSnapshot.getString("username");
+                        String downloadUrl = documentSnapshot.getString("downloadurl");
 
 
+                        postData.put("username",username);
+                        postData.put("downloadurl", downloadUrl);
 
+                        firebaseFirestore.collection("Posts").add(postData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+
+                                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                fragmentTransaction.replace(R.id.frameLayout, new HomeFragment());
+                                fragmentTransaction.commit();
+                                bottomNavigation.show(1,true);
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(requireActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(requireActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+
+            }
+        });
+
+
+    }
+
+    /* Post verileri
                 firebaseFirestore.collection("Posts").add(postData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
@@ -103,11 +143,7 @@ public class AddPostFragment extends Fragment {
                     }
                 });
 
-            }
-        });
-
-
-    }
+                 */
 
     /*  Profil verileri
                 firebaseFirestore.collection("Profiles").document(userId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {

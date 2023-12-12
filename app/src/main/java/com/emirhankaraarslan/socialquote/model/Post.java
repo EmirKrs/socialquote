@@ -7,10 +7,10 @@ public class Post {
     public String author;
     public String book;
 
-    public Post(String imageUrl, String username, String quote, String author, String book){
+    public Post(String username, String imageUrl, String quote, String author, String book){
 
-        this.imageUrl = imageUrl;
         this.username = username;
+        this.imageUrl = imageUrl;
         this.quote = quote;
         this.author = author;
         this.book = book;
