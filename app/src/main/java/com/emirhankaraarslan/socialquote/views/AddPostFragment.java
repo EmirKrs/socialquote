@@ -75,11 +75,11 @@ public class AddPostFragment extends Fragment {
                 String author = binding.authorEditText.getText().toString();
                 String book = binding.bookEditText.getText().toString();
 
-
                 HashMap<String, Object> postData = new HashMap<>();
                 postData.put("quote", quote);
                 postData.put("author", author);
                 postData.put("book", book);
+                postData.put("userId", userId);
                 postData.put("date", FieldValue.serverTimestamp());
 
                 firebaseFirestore.collection("Profiles").document(userId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -87,7 +87,6 @@ public class AddPostFragment extends Fragment {
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         String username = documentSnapshot.getString("username");
                         String downloadUrl = documentSnapshot.getString("downloadurl");
-
 
                         postData.put("username",username);
                         postData.put("downloadurl", downloadUrl);

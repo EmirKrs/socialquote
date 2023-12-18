@@ -37,8 +37,8 @@ public class HomeFragment extends Fragment {
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth auth;
     private FirebaseStorage firebaseStorage;
-    ArrayList<Post> postArrayList;
-    PostAdapter postAdapter;
+    private ArrayList<Post> postArrayList;
+    private PostAdapter postAdapter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -69,7 +69,18 @@ public class HomeFragment extends Fragment {
         firebaseFirestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
+        getData();
+
+        binding.homeRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        postAdapter = new PostAdapter(postArrayList);
+        binding.homeRecyclerView.setAdapter(postAdapter);
+    }
+
+    public void getData(){
+
         String userId = auth.getCurrentUser().getUid();
+
+        //Home Fragment Photo
         firebaseFirestore.collection("Profiles").document(userId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -86,21 +97,10 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        getData();
-
-        binding.homeRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        postAdapter = new PostAdapter(postArrayList);
-        binding.homeRecyclerView.setAdapter(postAdapter);
-    }
-
-    public void getData(){
-
+        //All Shared Posts
         firebaseFirestore.collection("Posts").orderBy("date", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null){
-                    Toast.makeText(requireActivity(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                }
                 if (value != null){
 
                     for (DocumentSnapshot document : value.getDocuments()){

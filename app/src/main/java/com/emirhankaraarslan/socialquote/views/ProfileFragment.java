@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +20,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.emirhankaraarslan.socialquote.R;
+import com.emirhankaraarslan.socialquote.adapter.PostAdapter;
+import com.emirhankaraarslan.socialquote.adapter.ProfilePostAdapter;
 import com.emirhankaraarslan.socialquote.databinding.FragmentProfileBinding;
+import com.emirhankaraarslan.socialquote.model.Post;
+import com.emirhankaraarslan.socialquote.model.ProfilePost;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,9 +33,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,6 +49,8 @@ public class ProfileFragment extends Fragment {
     private FirebaseFirestore firebaseFirestore;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    private ArrayList<ProfilePost> profilePostArrayList;
+    private ProfilePostAdapter profilePostAdapter;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -71,10 +80,18 @@ public class ProfileFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
 
+        profilePostArrayList = new ArrayList<>();
+
         MeowBottomNavigation bottomNavigation = requireActivity().findViewById(R.id.bottomNavigation);
         bottomNavigation.setVisibility(View.VISIBLE);
         bottomNavigation.show(3,true);
 
+
+        getData();
+
+        binding.profileRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        profilePostAdapter = new ProfilePostAdapter(profilePostArrayList);
+        binding.profileRecyclerView.setAdapter(profilePostAdapter);
 
         binding.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,11 +114,9 @@ public class ProfileFragment extends Fragment {
 
                 Intent intentToMain = new Intent(requireActivity(), MainActivity.class);
                 startActivity(intentToMain);
-                getActivity().finish();
+                requireActivity().finish();
             }
         });
-
-        getData();
     }
 
     public void getData(){
@@ -126,6 +141,33 @@ public class ProfileFragment extends Fragment {
                 Toast.makeText(requireActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         });
+
+
+        firebaseFirestore.collection("Posts").whereEqualTo("userId", userId).orderBy("date", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (value != null){
+
+                    for (DocumentSnapshot document : value.getDocuments()){
+
+                        Map<String, Object> data = document.getData();
+
+                        String quote = (String) data.get("quote");
+                        String author = (String) data.get("author");
+                        String book = (String) data.get("book");
+
+                        ProfilePost profilePost = new ProfilePost(quote, author, book);
+
+                        profilePostArrayList.add(profilePost);
+                    }
+                    profilePostAdapter.notifyDataSetChanged();
+                }
+
+            }
+        });
+
+
+
     }
     
     
