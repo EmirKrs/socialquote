@@ -5,10 +5,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.emirhankaraarslan.socialquote.R;
 import com.emirhankaraarslan.socialquote.databinding.RecyclerRowProfileBinding;
 import com.emirhankaraarslan.socialquote.model.ProfilePost;
+import com.emirhankaraarslan.socialquote.views.DetailsFragment;
+import com.emirhankaraarslan.socialquote.views.EditProfileFragment;
 
 import java.util.ArrayList;
 
@@ -31,6 +36,12 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<ProfilePostAdapter.
         holder.recyclerRowProfileBinding.profileQuoteText.setText(profilePostArrayList.get(position).quote);
         holder.recyclerRowProfileBinding.profileAuthorText.setText(profilePostArrayList.get(position).author);
         holder.recyclerRowProfileBinding.profileBookText.setText(profilePostArrayList.get(position).book);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
+            }
+        });
     }
 
     @Override

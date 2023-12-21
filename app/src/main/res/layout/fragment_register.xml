@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:clickable="true"
     android:focusableInTouchMode="true"
-    android:background="@drawable/login_background"
+    android:background="@drawable/login_background_new"
     tools:context=".views.RegisterFragment">
 
 
@@ -18,7 +18,7 @@
         android:layout_marginTop="50dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="15dp"
-        android:src="@drawable/register_logo"
+        android:src="@drawable/register_logo_new"
         app:layout_constraintBottom_toTopOf="@+id/registerUserPlain"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
