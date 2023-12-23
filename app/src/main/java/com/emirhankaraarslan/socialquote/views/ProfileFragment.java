@@ -121,6 +121,7 @@ public class ProfileFragment extends Fragment {
 
     public void getData(){
 
+        // Profile Info Process
         String userId = auth.getCurrentUser().getUid();
         firebaseFirestore.collection("Profiles").document(userId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -143,6 +144,7 @@ public class ProfileFragment extends Fragment {
         });
 
 
+        //Profile Post Process
         firebaseFirestore.collection("Posts").whereEqualTo("userId", userId).orderBy("date", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {

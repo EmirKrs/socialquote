@@ -94,61 +94,7 @@ public class EditProfileFragment extends Fragment {
         binding.saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //UUID
-                UUID uuid = UUID.randomUUID();
-                String imageName = "images/" + uuid + ".jpg";
-
-                String name = binding.nameEditText.getText().toString();
-                String biography = binding.bioEditText.getText().toString();
-
-                if (imageData == null || name.equals("")|| biography.equals("")){
-                    Toast.makeText(requireActivity(), "Lütfen alanları doldurunuz", Toast.LENGTH_SHORT).show();
-                }
-
-                else if (imageData != null && !name.equals("") && !biography.equals("")){
-                    storageReference.child(imageName).putFile(imageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            //Download Url
-                            storageReference.child(imageName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-
-                                    String downloadUrl = uri.toString();
-                                    String userId = auth.getCurrentUser().getUid();
-
-                                    HashMap<String, Object> profileData = new HashMap<>();
-
-                                    profileData.put("username",name);
-                                    profileData.put("biography",biography);
-                                    profileData.put("downloadurl",downloadUrl);
-
-                                    firebaseFirestore.collection("Profiles").document(userId).update(profileData).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void unused) {
-                                            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                            fragmentTransaction.replace(R.id.frameLayout, new ProfileFragment());
-                                            fragmentTransaction.commit();
-
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(requireActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                                        }
-                                    });
-
-                                }
-                            });
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(requireActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
+                saveProcess();
             }
         });
 
@@ -234,6 +180,64 @@ public class EditProfileFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void saveProcess(){
+        //UUID
+        UUID uuid = UUID.randomUUID();
+        String imageName = "images/" + uuid + ".jpg";
+
+        String name = binding.nameEditText.getText().toString();
+        String biography = binding.bioEditText.getText().toString();
+
+        if (imageData == null || name.equals("")|| biography.equals("")){
+            Toast.makeText(requireActivity(), "Lütfen boş alanları doldurunuz", Toast.LENGTH_SHORT).show();
+        }
+
+        else if (imageData != null && !name.equals("") && !biography.equals("")){
+            storageReference.child(imageName).putFile(imageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    //Download Url
+                    storageReference.child(imageName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+
+                            String downloadUrl = uri.toString();
+                            String userId = auth.getCurrentUser().getUid();
+
+                            HashMap<String, Object> profileData = new HashMap<>();
+
+                            profileData.put("username",name);
+                            profileData.put("biography",biography);
+                            profileData.put("downloadurl",downloadUrl);
+
+                            firebaseFirestore.collection("Profiles").document(userId).update(profileData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                    fragmentTransaction.replace(R.id.frameLayout, new ProfileFragment());
+                                    fragmentTransaction.commit();
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(requireActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+
+                        }
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(requireActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+        }
     }
 
 }

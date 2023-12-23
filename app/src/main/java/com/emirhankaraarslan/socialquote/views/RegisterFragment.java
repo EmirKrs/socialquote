@@ -137,7 +137,7 @@ public class RegisterFragment extends Fragment {
         }
         else if (!password.equals(passwordCon)) {
 
-            Toast.makeText(getActivity(), "Parolayı doğru girdiğinizden emin olunuz", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Parolayı aynı girdiğinizden emin olunuz", Toast.LENGTH_SHORT).show();
 
         } else {
             auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
@@ -153,6 +153,46 @@ public class RegisterFragment extends Fragment {
                     binding.registerEmailPlain.setText("");
                     binding.registerPasswordPlain.setText("");
                     binding.registerConfirmPlain.setText("");
+
+                    //Created Firebase Profile Document
+                    storageReference.child(imageName).putFile(imageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                            storageReference.child(imageName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    String downloadUrl = uri.toString();
+                                    String userId = auth.getCurrentUser().getUid();
+                                    String biography = "";
+
+                                    HashMap<String, Object> profileData = new HashMap<>();
+
+                                    profileData.put("username", username);
+                                    profileData.put("downloadurl",downloadUrl);
+                                    profileData.put("biography", biography);
+
+                                    firebaseFirestore.collection("Profiles").document(userId).set(profileData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(requireActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                }
+                            });
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(requireActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -161,44 +201,7 @@ public class RegisterFragment extends Fragment {
                 }
             });
 
-            storageReference.child(imageName).putFile(imageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                    storageReference.child(imageName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            String downloadUrl = uri.toString();
-                            String userId = auth.getCurrentUser().getUid();
-                            String biography = "";
-
-                            HashMap<String, Object> profileData = new HashMap<>();
-
-                            profileData.put("username", username);
-                            profileData.put("downloadurl",downloadUrl);
-                            profileData.put("biography", biography);
-
-                            firebaseFirestore.collection("Profiles").document(userId).set(profileData).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(requireActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        }
-                    });
-
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(requireActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
         }
     }
 
