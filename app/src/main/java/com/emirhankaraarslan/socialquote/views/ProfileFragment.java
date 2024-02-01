@@ -43,7 +43,6 @@ import java.util.Map;
 
 
 public class ProfileFragment extends Fragment {
-
     private FragmentProfileBinding binding;
     private FirebaseAuth auth;
     private FirebaseFirestore firebaseFirestore;
@@ -55,7 +54,6 @@ public class ProfileFragment extends Fragment {
     public ProfileFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,7 +83,6 @@ public class ProfileFragment extends Fragment {
         MeowBottomNavigation bottomNavigation = requireActivity().findViewById(R.id.bottomNavigation);
         bottomNavigation.setVisibility(View.VISIBLE);
         bottomNavigation.show(3,true);
-
 
         getData();
 
@@ -120,7 +117,6 @@ public class ProfileFragment extends Fragment {
     }
 
     public void getData(){
-
         // Profile Info Process
         String userId = auth.getCurrentUser().getUid();
         firebaseFirestore.collection("Profiles").document(userId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -142,7 +138,6 @@ public class ProfileFragment extends Fragment {
                 Toast.makeText(requireActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         });
-
 
         //Profile Post Process
         firebaseFirestore.collection("Posts").whereEqualTo("userId", userId).orderBy("date", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -168,9 +163,6 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-
-
     }
-    
-    
+
 }

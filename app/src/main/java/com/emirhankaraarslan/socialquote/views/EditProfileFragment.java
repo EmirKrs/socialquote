@@ -190,11 +190,8 @@ public class EditProfileFragment extends Fragment {
         String name = binding.nameEditText.getText().toString();
         String biography = binding.bioEditText.getText().toString();
 
-        if (imageData == null || name.equals("")|| biography.equals("")){
-            Toast.makeText(requireActivity(), "Lütfen boş alanları doldurunuz", Toast.LENGTH_SHORT).show();
-        }
 
-        else if (imageData != null && !name.equals("") && !biography.equals("")){
+        if (imageData != null && !name.equals("") && !biography.equals("")){
             storageReference.child(imageName).putFile(imageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -237,6 +234,9 @@ public class EditProfileFragment extends Fragment {
                     Toast.makeText(requireActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 }
             });
+        }
+        else if (imageData == null || name.equals("")|| biography.equals("")){
+            Toast.makeText(requireActivity(), "Lütfen boş alanları doldurunuz", Toast.LENGTH_SHORT).show();
         }
     }
 

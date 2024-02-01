@@ -3,14 +3,9 @@ package com.emirhankaraarslan.socialquote.views;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-
 import com.emirhankaraarslan.socialquote.R;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
-
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 

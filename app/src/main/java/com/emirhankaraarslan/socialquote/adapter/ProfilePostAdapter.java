@@ -1,10 +1,12 @@
 package com.emirhankaraarslan.socialquote.adapter;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,10 +38,15 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<ProfilePostAdapter.
         holder.recyclerRowProfileBinding.profileQuoteText.setText(profilePostArrayList.get(position).quote);
         holder.recyclerRowProfileBinding.profileAuthorText.setText(profilePostArrayList.get(position).author);
         holder.recyclerRowProfileBinding.profileBookText.setText(profilePostArrayList.get(position).book);
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+
+                FragmentTransaction transaction = ((FragmentActivity) view.getContext()).getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frameLayout, new DetailsFragment());
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
     }
@@ -55,5 +62,6 @@ public class ProfilePostAdapter extends RecyclerView.Adapter<ProfilePostAdapter.
             super(recyclerRowProfileBinding.getRoot());
             this.recyclerRowProfileBinding = recyclerRowProfileBinding;
         }
+
     }
 }

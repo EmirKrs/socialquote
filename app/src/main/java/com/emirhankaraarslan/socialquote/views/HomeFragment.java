@@ -72,7 +72,7 @@ public class HomeFragment extends Fragment {
         getData();
 
         binding.homeRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        postAdapter = new PostAdapter(postArrayList);
+        postAdapter = new PostAdapter(postArrayList,getContext());
         binding.homeRecyclerView.setAdapter(postAdapter);
     }
 
